@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather</title>
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <style>
+   .left-column {
+       margin-left: 10px;
+    margin-top: 10px;
+       
+   }
+   #bottom-row {
+       margin-top: 15px;
+   }
+
+   .top-right {
+       width: 100%;
+       border: dotted 2px black;
+   }
+
+   #display-city-name {
+       font-size: 24px;
+   }
+
+   #date-display {
+       font-size: 20px;
+   }
+
+   .town-info {
+       font-size: 16px
+   }
+
+   #current-weather-button {
+       font-size: 14px;
+       margin-bottom: 15px;
+   }
+   #forecast-info-button {
+       font-size: 14px;
+       margin-top: 20px:
+   }
+
+   .low {
+       background-color: lightgreen;
+   }
+
+   .moderate {
+       background-color: yellow;
+   }
+
+   .high {
+       background-color: orangered;
+   }
+
+   .very-high {
+       background-color: red
+   }
+
+   .extreme {
+       background-color: purple;
+   }
+   .nav {
+       background-color: gray;
+   }
+
+ .whole-card {
+     margin-right: 5px;
+     border: dotted 2px black;
+ }
+
+ .card-text {
+     color: purple;
+
+ }
+
+ body {
+     background-color: skyblue;
+ }
+
+ .main-title {
+     font-weight: bold;
+ }
+
+
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-light nav">
+        <span class="navbar-brand mb-0 h1 main-title">WEATHER CENTRAL: Today's Forecast and the Next Five Days</span>
+      </nav>
+      <div class="row">
+        <div class="col-sm-3 left-column">
+          <h5>TYPE ANY CITY INTO THE BOX BELOW</h5>
+          <textarea id="city"></textarea>
+          <button id="current-weather-button">CLICK ME FOR CURRENT WEATHER</button>
+          <button id="forecast-info-button">CLICK ME FOR FIVE DAY FORECAST</button>
+          <ul class="cities">
+                <li>City 1</li>
+                <li>City 2</li>
+                <li>City 3</li>
+                <li>City 4</li>
+                <li>City 5</li>
+          </ul>
+          
+        </div>
+        <div class="col-sm-8">
+          <div class="row">
+            <div class="card top-right">
+                <div class="card-header" > 
+                    <p id="display-city-name"><span id="date-display"></span></p>
+                </div>
+                
+                <div class="card-body">
+                    <img id="icon-image" />
+                  <blockquote class="blockquote mb-0">
+                    <p class="town-info" id="temperature"></p>
+                    <p class="town-info" id="humidity"></p>
+                    <p class="town-info" id="wind-speed"></p>
+                    <p class="town-info index" id="uv-index"></p>
+                  
+                  </blockquote>
+                </div>
+              </div>
+          </div>
+          <div class="row" id="bottom-row">
+            <div class="card bg-light mb-3 whole-card" style="max-width: 9rem;">
+                <div class="card-header card-one"></div>
+                <div class="card-body">
+                  <h5 class="card-title" id="card-one-date"></h5>
+                  <img id="card-one-image">
+                  <p class="card-text" id="card-one-temp"></p>
+                  <p class="card-text" id="card-one-humidity"></p>
+                </div>
+              </div>
+              <div class="card bg-light mb-3 whole-card" style="max-width: 9rem;">
+                <div class="card-header card-two"></div>
+                <div class="card-body">
+                  <h5 class="card-title" id="card-two-date"></h5>
+                  <img id="card-two-image">
+                  <p class="card-text" id="card-two-temp"></p>
+                  <p class="card-text" id="card-two-humidity"></p>
+                </div>
+              </div>
+              <div class="card bg-light mb-3 whole-card" style="max-width: 9rem;">
+                <div class="card-header card-three"></div>
+                <div class="card-body">
+                  <h5 class="card-title" id="card-three-date"></h5>
+                  <img id="card-three-image">
+                  <p class="card-text" id="card-three-temp"></p>
+                  <p class="card-text" id="card-three-humidity"></p>
+                </div>
+              </div>
+              <div class="card bg-light mb-3 whole-card" style="max-width: 9rem;">
+                <div class="card-header card-four"></div>
+                <div class="card-body">
+                  <h5 class="card-title" id="card-four-date"></h5>
+                  <img id="card-four-image">
+                  <p class="card-text" id="card-four-temp"></p>
+                  <p class="card-text" id="card-four-humidity"></p>
+                </div>
+              </div>
+              <div class="card bg-light mb-3 whole-card" style="max-width: 9rem;">
+                <div class="card-header card-five"></div>
+                <div class="card-body">
+                  <h5 class="card-title" id="card-five-date"></h5>
+                  <img id="card-five-image">
+                  <p class="card-text" id="card-five-temp"></p>
+                  <p class="card-text" id="card-five-humidity"></p>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+ 
+   
+      $("#forecast-info-button").on("click", function () {
+        // remember which button the user clicked
+        
+        // go through array of URLs
+        var city = $("#city").val();
+        console.log(city);
+        var queryURL =
+          "http://api.openweathermap.org/data/2.5/forecast?q=" +
+          city +
+          "&appid=7d7d492d7c85ab4bc8beea0763fb0cb6&units=imperial";
+        $.ajax({
+          url: queryURL,
+          method: "GET",
+        }).then(function (result) {
+            console.log(result);
+            var dayOneIcon =result.list[3].weather[0].icon;
+            var dayOne = result.list[3].dt_txt;
+            $(".card-one").text(dayOne);
+          var dayOneTemp = parseInt(result.list[3].main.temp);
+          $("#card-one-temp").text("Temperature: " + dayOneTemp + "F");
+          var dayOneHumidity = result.list[3].main.humidity;
+          $("#card-one-humidity").text("Humidity: " + dayOneHumidity + "%");
+          var dayTwoIcon = result.list[11].weather[0].icon;
+          var dayTwo = result.list[11].dt_txt;
+          $(".card-two").text(dayTwo);
+          var dayTwoTemp = parseInt(result.list[11].main.temp);
+          $("#card-two-temp").text("Temperature: " + dayTwoTemp + "F");
+          var dayTwoHumidity = result.list[11].main.humidity;
+          $("#card-two-humidity").text("Humidity: " + dayTwoHumidity + "%");
+          var dayThreeIcon =result.list[19].weather[0].icon;
+          var dayThree = result.list[19].dt_txt;
+          $(".card-three").text(dayThree);
+          var dayThreeTemp = parseInt(result.list[19].main.temp);
+          $("#card-three-temp").text("Temperature: " + dayThreeTemp + "F");
+          var dayThreeHumidity = result.list[19].main.humidity;
+          $("#card-three-humidity").text("Humidity: " + dayThreeHumidity + "%");
+          var dayFourIcon =result.list[27].weather[0].icon;
+          var dayFour =result.list[27].dt_txt;
+          $(".card-four").text(dayFour);
+          var dayFourTemp = parseInt(result.list[27].main.temp);
+          $("#card-four-temp").text("Temperature: " + dayFourTemp + "F");
+          var dayFourHumidity = result.list[27].main.humidity;
+          $("#card-four-humidity").text("Humidity: " + dayFourHumidity + "%");
+          var dayFiveIcon =result.list[35].weather[0].icon;
+          var dayFive =result.list[35].dt_txt;
+          $(".card-five").text(dayFive);
+          var dayFiveTemp = parseInt(result.list[35].main.temp);
+          $("#card-five-temp").text("Temperature: " + dayFiveTemp + "F");
+          var dayFiveHumidity = result.list[35].main.humidity;
+          $("#card-five-humidity").text("Humidity: " + dayFiveHumidity + "%");
+          var dayOneImage =
+            "http://openweathermap.org/img/w/" + dayOneIcon + ".png";
+            $("#card-one-image").attr("src", dayOneImage);
+            var dayTwoImage =
+            "http://openweathermap.org/img/w/" + dayTwoIcon + ".png";
+            $("#card-two-image").attr("src", dayTwoImage);
+            var dayThreeImage =
+            "http://openweathermap.org/img/w/" + dayThreeIcon + ".png";
+            $("#card-three-image").attr("src", dayThreeImage);
+            var dayFourImage =
+            "http://openweathermap.org/img/w/" + dayFourIcon + ".png";
+            $("#card-four-image").attr("src", dayFourImage);
+            var dayFiveImage =
+            "http://openweathermap.org/img/w/" + dayFiveIcon + ".png";
+            $("#card-five-image").attr("src", dayFiveImage);
+        });
+      });
+      
+$("#current-weather-button").on("click", function (){
+    var date = moment();
+    var dateDisplay = date.format("dddd MMMM Do YYYY");
+    console.log(dateDisplay);
+    var city = $("#city").val();
+    $("#display-city-name").text(city + ":" + " " + " " + dateDisplay);
+    var newURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + 
+    "&appid=7d7d492d7c85ab4bc8beea0763fb0cb6&units=imperial";
+    $.ajax({
+        url: newURL,
+        method: "GET",
+    }).then(function (response){
+        console.log(response);
+        console.log("Temperature:" + response.main.temp);
+        console.log("Humidity:" + response.main.humidity);
+        console.log("Wind Speed:" + response.wind.speed);
+        var temperature = parseInt(response.main.temp);
+        $("#temperature").text("Temperature: " + temperature + " degrees F");
+        var humidity = response.main.humidity;
+        $("#humidity").text("Humidity: " + humidity + "%");
+        var windSpeed = response.wind.speed;
+        $("#wind-speed").text("Wind Speed: " + windSpeed + " MPH");
+        iconCode = response.weather[0].icon;
+        var iconImage =
+            "http://openweathermap.org/img/w/" + iconCode + ".png";
+            $("#icon-image").attr("src", iconImage);
+        var lat = response.coord.lat;
+        var lon = response.coord.lon;
+        var uvQueryURL =
+        "http://api.openweathermap.org/data/2.5/uvi?appid=c7629276d88b73d9dee17485c554906b&lat=" +
+        lat +
+        "&lon=" +
+        lon;
+            $.ajax({
+                url: uvQueryURL,
+                method: "GET"
+            }).then(function(result){
+                var uvIndex = result.value;
+                $("#uv-index").text("UV Index: " + uvIndex);
+                if (uvIndex < 2) {
+                    $(".index").attr("class", "low");
+                    console.log("You're safe!");
+                } 
+                if (uvIndex >= 2 && uvIndex <= 5){
+                    $(".index").attr("class", "moderate");
+                    console.log("Getting risky");
+                } 
+                if (uvIndex > 5 && uvIndex <= 7) {
+                    $(".index").attr("class", "high");;
+                    console.log("Uh oh!");
+                }
+                 if (uvIndex > 7 && uvIndex <= 10) {
+                    $(".index").attr("class", "very-high")
+                    console.log("You better stay inside!")
+                } 
+                if (uvIndex > 10) {
+                    $("#.index").attr("class", "extreme");
+                    console.log("You will ignite on fire");
+                }
+            })
+        
+    })
+
+
+})
+      
+    
+    
+
+    </script>
+  </body>
+</html>
