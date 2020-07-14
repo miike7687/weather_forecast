@@ -105,9 +105,10 @@
           <!-- Second button for the 5 day forecast generator -->
           <button id="forecast-info-button">CLICK ME FOR FIVE DAY FORECAST</button>
           <!-- Create an unordered list that will store all cities that have been searched -->
-          <ul class="cities" id="city-list">
+          <hr>
+          <div class="cities" id="city-list">
                
-          </ul>
+          </div>
           
         </div>
         <div class="col-sm-8">
@@ -182,9 +183,11 @@
 
     <script>
 
-    var cities = ["New York", "Boston"];
- $("#city-list").val(localStorage.getItem("city"));
+    var cities = [];
+ 
 
+//  for loop up here OR underneath the click event? with local storage GET inside the for loop to run through array of updated cities
+// for each loop to make AJAX work for all cities
 //    Create a button click handler for the five day forecast
       $("#forecast-info-button").on("click", function () {
         // remember which button the user clicked
@@ -276,20 +279,26 @@ $("#current-weather-button").on("click", function (){
     console.log(dateDisplay);
     // Put this value in local storage
     var city = $("#city").val();
-    // Every time the user types in a new city, and clicks the current weather button
+    // Every time the user types in a new city, and clicks the current weather button:
+        // Create a new list item 
+        var newButton = $("<button>");
+        // Give the list item its text
+        newButton.text(city);
         // New city is displayed in the unordered list as the last list item
+        $("#city-list").append("<button>" + city + "<button>");
+        // Push any new cities into the array of cities
+        cities.push(city);
+        console.log(cities);
         //   New city is stored in local storage
-        // New city is displayed on the unordered list if the page is refreshed
-        // Entire array is displayed on the unordered list if the page is refreshed  
+        localStorage.setItem("cities", cities);
+        
+       
 
-    // cities.push(city);
-    // for (var i = 0; i < cities.length; i++) {
-    //     $("#city-list").append("<li>" + cities[i] + "</li>");  
-    // }
-    // localStorage.setItem("City", cities[-1]);
-    // var newLi = $("<li>");
-    // newLi.text(city);
-    // $("#city-list").append("<li>" + city + "</li>");
+   
+    
+    
+   
+    
     $("#display-city-name").text(city + ":" + " " + " " + dateDisplay);
     var newURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + 
     "&appid=7d7d492d7c85ab4bc8beea0763fb0cb6&units=imperial";
@@ -341,17 +350,44 @@ $("#current-weather-button").on("click", function (){
                     console.log("You better stay inside!")
                 } 
                 if (uvIndex > 10) {
-                    $("#.index").attr("class", "extreme");
+                    $(".index").attr("class", "extreme");
                     console.log("You will ignite on fire");
                 }
             })
         
     })
 
+        });
 
-})
 
 
+
+//...
+var storedCities = localStorage.getItem("cities");
+// var citiesTwo = JSON.parse(storedCities);
+console.log(storedCities);
+console.log(typeof storedCities);
+var newCitiesArray = storedCities.split(",");
+for (var i = 0; i < newCitiesArray.length; i++) {
+    var newButton = $("<button>");
+        // Give the list item its text
+        newButton.text(newCitiesArray[i]);
+        // New city is displayed in the unordered list as the last list item
+        $("#city-list").append("<button>" + newCitiesArray[i] + "<button>");
+}
+// var firstCity = storedCities.slice(",")[0]
+// console.log(firstCity);
+
+
+// $("#city-list").val(localStorage.getObj("cities"));
+// $("#city-list").append("<button>" + cities[0] + "<button>"); 
+    // for (var i = 0; i < cities.length; i++) {
+    //     // get each element of the array cities
+        
+    //     console.log(cities) 
+    // }
+// New city is displayed on the unordered list if the page is refreshed
+// Entire array (including new city) is displayed on the unordered list if the page is refreshed  
       
     
     
