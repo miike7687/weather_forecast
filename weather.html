@@ -89,6 +89,12 @@
      font-weight: bold;
  }
 
+ ul.no-bullets {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+}
+
 
     </style>
   </head>
@@ -106,9 +112,9 @@
           <button id="forecast-info-button">CLICK ME FOR FIVE DAY FORECAST</button>
           <!-- Create an unordered list that will store all cities that have been searched -->
           <hr>
-          <div class="cities" id="city-list">
+          <ul class="cities no-bullets" id="city-list">
                
-          </div>
+          </ul>
           
         </div>
         <div class="col-sm-8">
@@ -209,18 +215,18 @@
             // Search and store the icon into a variable
             var dayOneIcon =result.list[3].weather[0].icon;
             // Store and display date and time
-            var dayOne = result.list[3].dt_txt;
+            var dayOne = result.list[3].dt_txt.split(" ")[0];
             $(".card-one").text(dayOne);
             // Store and display temperature
           var dayOneTemp = parseInt(result.list[3].main.temp);
-          $("#card-one-temp").text("Temperature: " + dayOneTemp + "F");
+          $("#card-one-temp").text("Temperature: " + dayOneTemp + "\xB0F" + "F");
         //   Store and display humidity
           var dayOneHumidity = result.list[3].main.humidity;
           $("#card-one-humidity").text("Humidity: " + dayOneHumidity + "%");
           // Search and store the icon into a variable
           var dayTwoIcon = result.list[11].weather[0].icon;
           // Store and display date and time
-          var dayTwo = result.list[11].dt_txt;
+          var dayTwo = result.list[11].dt_txt.split(" ")[0];
           $(".card-two").text(dayTwo);
           var dayTwoTemp = parseInt(result.list[11].main.temp);
           $("#card-two-temp").text("Temperature: " + dayTwoTemp + "F");
@@ -229,7 +235,7 @@
           // Search and store the icon into a variable
           var dayThreeIcon =result.list[19].weather[0].icon;
           // Store and display date and time
-          var dayThree = result.list[19].dt_txt;
+          var dayThree = result.list[19].dt_txt.split(" ")[0];
           $(".card-three").text(dayThree);
           var dayThreeTemp = parseInt(result.list[19].main.temp);
           $("#card-three-temp").text("Temperature: " + dayThreeTemp + "F");
@@ -238,7 +244,7 @@
           // Search and store the icon into a variable
           var dayFourIcon =result.list[27].weather[0].icon;
           // Store and display date and time
-          var dayFour =result.list[27].dt_txt;
+          var dayFour =result.list[27].dt_txt.split(" ")[0];
           $(".card-four").text(dayFour);
           var dayFourTemp = parseInt(result.list[27].main.temp);
           $("#card-four-temp").text("Temperature: " + dayFourTemp + "F");
@@ -247,7 +253,7 @@
           // Search and store the icon into a variable
           var dayFiveIcon =result.list[35].weather[0].icon;
           // Store and display date and time
-          var dayFive =result.list[35].dt_txt;
+          var dayFive =result.list[35].dt_txt.split(" ")[0];
           $(".card-five").text(dayFive);
           var dayFiveTemp = parseInt(result.list[35].main.temp);
           $("#card-five-temp").text("Temperature: " + dayFiveTemp + "F");
@@ -281,11 +287,11 @@ $("#current-weather-button").on("click", function (){
     var city = $("#city").val();
     // Every time the user types in a new city, and clicks the current weather button:
         // Create a new list item 
-        var newButton = $("<button>");
+        var newLi = $("<li>");
         // Give the list item its text
-        newButton.text(city);
+        newLi.text(city);
         // New city is displayed in the unordered list as the last list item
-        $("#city-list").append("<button>" + city + "<button>");
+        $("#city-list").append("<li>" + city + "<li>");
         // Push any new cities into the array of cities
         cities.push(city);
         console.log(cities);
@@ -369,12 +375,169 @@ console.log(storedCities);
 console.log(typeof storedCities);
 var newCitiesArray = storedCities.split(",");
 for (var i = 0; i < newCitiesArray.length; i++) {
-    var newButton = $("<button>");
+    var newLi = $("<li>");
+
         // Give the list item its text
-        newButton.text(newCitiesArray[i]);
+        newLi.text(newCitiesArray[i]);
         // New city is displayed in the unordered list as the last list item
-        $("#city-list").append("<button>" + newCitiesArray[i] + "<button>");
+        $("#city-list").append("<li>" + newCitiesArray[i] + "<li>");
+        
 }
+resetPage();
+function resetPage() {
+    var lastCityNumber = newCitiesArray.length - 1;
+    console.log(lastCityNumber);
+    var lastCity = newCitiesArray[lastCityNumber];
+    console.log(lastCity);
+    var date = moment();
+    var dateDisplay = date.format("dddd MMMM Do YYYY");
+    console.log(dateDisplay);
+    // Put this value in local storage
+    // var city = $("#city").val();
+    // // Every time the user types in a new city, and clicks the current weather button:
+    //     // Create a new list item 
+    //     var newLi = $("<li>");
+    //     // Give the list item its text
+    //     newLi.text(city);
+    //     // New city is displayed in the unordered list as the last list item
+    //     $("#city-list").append("<li>" + city + "<li>");
+    //     // Push any new cities into the array of cities
+    //     cities.push(city);
+    //     console.log(cities);
+    $("#display-city-name").text(lastCity + ":" + " " + " " + dateDisplay);
+    var newURL = "http://api.openweathermap.org/data/2.5/weather?q=" + lastCity + 
+    "&appid=7d7d492d7c85ab4bc8beea0763fb0cb6&units=imperial";
+    $.ajax({
+        url: newURL,
+        method: "GET",
+    }).then(function (response){
+        console.log(response);
+        console.log("Temperature:" + response.main.temp);
+        console.log("Humidity:" + response.main.humidity);
+        console.log("Wind Speed:" + response.wind.speed);
+        var temperature = parseInt(response.main.temp);
+        $("#temperature").text("Temperature: " + temperature + "F");
+        var humidity = response.main.humidity;
+        $("#humidity").text("Humidity: " + humidity + "%");
+        var windSpeed = response.wind.speed;
+        $("#wind-speed").text("Wind Speed: " + windSpeed + " MPH");
+        iconCode = response.weather[0].icon;
+        var iconImage =
+            "http://openweathermap.org/img/w/" + iconCode + ".png";
+            $("#icon-image").attr("src", iconImage);
+        var lat = response.coord.lat;
+        var lon = response.coord.lon;
+        var uvQueryURL =
+        "http://api.openweathermap.org/data/2.5/uvi?appid=c7629276d88b73d9dee17485c554906b&lat=" +
+        lat +
+        "&lon=" +
+        lon;
+            $.ajax({
+                url: uvQueryURL,
+                method: "GET"
+            }).then(function(result){
+                var uvIndex = result.value;
+                $("#uv-index").text("UV Index: " + uvIndex);
+                if (uvIndex < 2) {
+                    $(".index").attr("class", "low");
+                    console.log("You're safe!");
+                } 
+                if (uvIndex >= 2 && uvIndex <= 5){
+                    $(".index").attr("class", "moderate");
+                    console.log("Getting risky");
+                } 
+                if (uvIndex > 5 && uvIndex <= 7) {
+                    $(".index").attr("class", "high");;
+                    console.log("Uh oh!");
+                }
+                 if (uvIndex > 7 && uvIndex <= 10) {
+                    $(".index").attr("class", "very-high")
+                    console.log("You better stay inside!")
+                } 
+                if (uvIndex > 10) {
+                    $(".index").attr("class", "extreme");
+                    console.log("You will ignite on fire");
+                }
+            })
+        
+    })
+    var finalQueryURL =
+          "http://api.openweathermap.org/data/2.5/forecast?q=" +
+          lastCity +
+          "&appid=7d7d492d7c85ab4bc8beea0763fb0cb6&units=imperial";
+        //   Run the AJAX API
+        $.ajax({
+          url: finalQueryURL,
+          method: "GET",
+        }).then(function (result) {
+            console.log(result);
+            // Search and store the icon into a variable
+            var dayOneIcon =result.list[3].weather[0].icon;
+            // Store and display date and time
+            var dayOne = result.list[3].dt_txt.split(" ")[0];
+            $(".card-one").text(dayOne);
+            // Store and display temperature
+          var dayOneTemp = parseInt(result.list[3].main.temp);
+          $("#card-one-temp").text("Temperature: " + dayOneTemp + "F");
+        //   Store and display humidity
+          var dayOneHumidity = result.list[3].main.humidity;
+          $("#card-one-humidity").text("Humidity: " + dayOneHumidity + "%");
+          // Search and store the icon into a variable
+          var dayTwoIcon = result.list[11].weather[0].icon;
+          // Store and display date and time
+          var dayTwo = result.list[11].dt_txt.split(" ")[0];
+          $(".card-two").text(dayTwo);
+          var dayTwoTemp = parseInt(result.list[11].main.temp);
+          $("#card-two-temp").text("Temperature: " + dayTwoTemp + "F");
+          var dayTwoHumidity = result.list[11].main.humidity;
+          $("#card-two-humidity").text("Humidity: " + dayTwoHumidity + "%");
+          // Search and store the icon into a variable
+          var dayThreeIcon =result.list[19].weather[0].icon;
+          // Store and display date and time
+          var dayThree = result.list[19].dt_txt.split(" ")[0];
+          $(".card-three").text(dayThree);
+          var dayThreeTemp = parseInt(result.list[19].main.temp);
+          $("#card-three-temp").text("Temperature: " + dayThreeTemp + "F");
+          var dayThreeHumidity = result.list[19].main.humidity;
+          $("#card-three-humidity").text("Humidity: " + dayThreeHumidity + "%");
+          // Search and store the icon into a variable
+          var dayFourIcon =result.list[27].weather[0].icon;
+          // Store and display date and time
+          var dayFour =result.list[27].dt_txt.split(" ")[0];
+          $(".card-four").text(dayFour);
+          var dayFourTemp = parseInt(result.list[27].main.temp);
+          $("#card-four-temp").text("Temperature: " + dayFourTemp + "F");
+          var dayFourHumidity = result.list[27].main.humidity;
+          $("#card-four-humidity").text("Humidity: " + dayFourHumidity + "%");
+          // Search and store the icon into a variable
+          var dayFiveIcon =result.list[35].weather[0].icon;
+          // Store and display date and time
+          var dayFive =result.list[35].dt_txt.split(" ")[0];
+          $(".card-five").text(dayFive);
+          var dayFiveTemp = parseInt(result.list[35].main.temp);
+          $("#card-five-temp").text("Temperature: " + dayFiveTemp + "F");
+          var dayFiveHumidity = result.list[35].main.humidity;
+          $("#card-five-humidity").text("Humidity: " + dayFiveHumidity + "%");
+        //   Display all 5 icons in their correct day
+          var dayOneImage =
+            "http://openweathermap.org/img/w/" + dayOneIcon + ".png";
+            $("#card-one-image").attr("src", dayOneImage);
+            var dayTwoImage =
+            "http://openweathermap.org/img/w/" + dayTwoIcon + ".png";
+            $("#card-two-image").attr("src", dayTwoImage);
+            var dayThreeImage =
+            "http://openweathermap.org/img/w/" + dayThreeIcon + ".png";
+            $("#card-three-image").attr("src", dayThreeImage);
+            var dayFourImage =
+            "http://openweathermap.org/img/w/" + dayFourIcon + ".png";
+            $("#card-four-image").attr("src", dayFourImage);
+            var dayFiveImage =
+            "http://openweathermap.org/img/w/" + dayFiveIcon + ".png";
+            $("#card-five-image").attr("src", dayFiveImage);
+        });
+      };
+        ;
+
 // var firstCity = storedCities.slice(",")[0]
 // console.log(firstCity);
 
