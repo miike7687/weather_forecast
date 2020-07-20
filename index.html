@@ -203,7 +203,7 @@
         console.log(city);
         // User's input is placed into the query URL
         var queryURL =
-          "http://api.openweathermap.org/data/2.5/forecast?q=" +
+          "https://api.openweathermap.org/data/2.5/forecast?q=" +
           city +
           "&appid=7d7d492d7c85ab4bc8beea0763fb0cb6&units=imperial";
         //   Run the AJAX API
@@ -261,19 +261,19 @@
           $("#card-five-humidity").text("Humidity: " + dayFiveHumidity + "%");
         //   Display all 5 icons in their correct day
           var dayOneImage =
-            "http://openweathermap.org/img/w/" + dayOneIcon + ".png";
+            "https://openweathermap.org/img/w/" + dayOneIcon + ".png";
             $("#card-one-image").attr("src", dayOneImage);
             var dayTwoImage =
-            "http://openweathermap.org/img/w/" + dayTwoIcon + ".png";
+            "https://openweathermap.org/img/w/" + dayTwoIcon + ".png";
             $("#card-two-image").attr("src", dayTwoImage);
             var dayThreeImage =
-            "http://openweathermap.org/img/w/" + dayThreeIcon + ".png";
+            "https://openweathermap.org/img/w/" + dayThreeIcon + ".png";
             $("#card-three-image").attr("src", dayThreeImage);
             var dayFourImage =
-            "http://openweathermap.org/img/w/" + dayFourIcon + ".png";
+            "https://openweathermap.org/img/w/" + dayFourIcon + ".png";
             $("#card-four-image").attr("src", dayFourImage);
             var dayFiveImage =
-            "http://openweathermap.org/img/w/" + dayFiveIcon + ".png";
+            "https://openweathermap.org/img/w/" + dayFiveIcon + ".png";
             $("#card-five-image").attr("src", dayFiveImage);
         });
       });
@@ -306,7 +306,7 @@ $("#current-weather-button").on("click", function (){
    
     
     $("#display-city-name").text(city + ":" + " " + " " + dateDisplay);
-    var newURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + 
+    var newURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + 
     "&appid=7d7d492d7c85ab4bc8beea0763fb0cb6&units=imperial";
     $.ajax({
         url: newURL,
@@ -324,12 +324,12 @@ $("#current-weather-button").on("click", function (){
         $("#wind-speed").text("Wind Speed: " + windSpeed + " MPH");
         iconCode = response.weather[0].icon;
         var iconImage =
-            "http://openweathermap.org/img/w/" + iconCode + ".png";
+            "https://openweathermap.org/img/w/" + iconCode + ".png";
             $("#icon-image").attr("src", iconImage);
         var lat = response.coord.lat;
         var lon = response.coord.lon;
         var uvQueryURL =
-        "http://api.openweathermap.org/data/2.5/uvi?appid=c7629276d88b73d9dee17485c554906b&lat=" +
+        "https://api.openweathermap.org/data/2.5/uvi?appid=c7629276d88b73d9dee17485c554906b&lat=" +
         lat +
         "&lon=" +
         lon;
@@ -405,7 +405,7 @@ function resetPage() {
     //     cities.push(city);
     //     console.log(cities);
     $("#display-city-name").text(lastCity + ":" + " " + " " + dateDisplay);
-    var newURL = "http://api.openweathermap.org/data/2.5/weather?q=" + lastCity + 
+    var newURL = "https://api.openweathermap.org/data/2.5/weather?q=" + lastCity + 
     "&appid=7d7d492d7c85ab4bc8beea0763fb0cb6&units=imperial";
     $.ajax({
         url: newURL,
@@ -423,12 +423,12 @@ function resetPage() {
         $("#wind-speed").text("Wind Speed: " + windSpeed + " MPH");
         iconCode = response.weather[0].icon;
         var iconImage =
-            "http://openweathermap.org/img/w/" + iconCode + ".png";
+            "https://openweathermap.org/img/w/" + iconCode + ".png";
             $("#icon-image").attr("src", iconImage);
         var lat = response.coord.lat;
         var lon = response.coord.lon;
         var uvQueryURL =
-        "http://api.openweathermap.org/data/2.5/uvi?appid=c7629276d88b73d9dee17485c554906b&lat=" +
+        "https://api.openweathermap.org/data/2.5/uvi?appid=c7629276d88b73d9dee17485c554906b&lat=" +
         lat +
         "&lon=" +
         lon;
@@ -462,7 +462,7 @@ function resetPage() {
         
     })
     var finalQueryURL =
-          "http://api.openweathermap.org/data/2.5/forecast?q=" +
+          "https://api.openweathermap.org/data/2.5/forecast?q=" +
           lastCity +
           "&appid=7d7d492d7c85ab4bc8beea0763fb0cb6&units=imperial";
         //   Run the AJAX API
@@ -520,19 +520,19 @@ function resetPage() {
           $("#card-five-humidity").text("Humidity: " + dayFiveHumidity + "%");
         //   Display all 5 icons in their correct day
           var dayOneImage =
-            "http://openweathermap.org/img/w/" + dayOneIcon + ".png";
+            "https://openweathermap.org/img/w/" + dayOneIcon + ".png";
             $("#card-one-image").attr("src", dayOneImage);
             var dayTwoImage =
-            "http://openweathermap.org/img/w/" + dayTwoIcon + ".png";
+            "https://openweathermap.org/img/w/" + dayTwoIcon + ".png";
             $("#card-two-image").attr("src", dayTwoImage);
             var dayThreeImage =
-            "http://openweathermap.org/img/w/" + dayThreeIcon + ".png";
+            "https://openweathermap.org/img/w/" + dayThreeIcon + ".png";
             $("#card-three-image").attr("src", dayThreeImage);
             var dayFourImage =
-            "http://openweathermap.org/img/w/" + dayFourIcon + ".png";
+            "https://openweathermap.org/img/w/" + dayFourIcon + ".png";
             $("#card-four-image").attr("src", dayFourImage);
             var dayFiveImage =
-            "http://openweathermap.org/img/w/" + dayFiveIcon + ".png";
+            "https://openweathermap.org/img/w/" + dayFiveIcon + ".png";
             $("#card-five-image").attr("src", dayFiveImage);
         });
       };
